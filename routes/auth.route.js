@@ -11,9 +11,12 @@ import {
 } from "../controllers/auth.controller.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-router.use(express.json());
 
+
+router.use(express.json());
 router.use(cookieParser());
+app.use(cors({ origin: "*" }));
+
 
 // router.use(cors({
 //   origin: "http://localhost:3000", // Change based on frontend URL
