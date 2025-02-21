@@ -10,10 +10,6 @@ const PORT = process.env.PORT;
 
 // Handle preflight requests
 app.options("*", cors());
-
-app.use("/api/auth", authroutes);
-app.use(cookieParser());
-
 const allowedOrigins = [
   "http://127.0.2.2:3000",
   "https://your-frontend.vercel.app",
@@ -33,6 +29,11 @@ app.use(
     credentials: true,
   })
 );
+
+app.use("/api/auth", authroutes);
+app.use(cookieParser());
+
+
 
 app.get("/", (req, res) => {
   res.send("API is working");
