@@ -98,8 +98,8 @@ export const login = async (req, res) => {
         user.lastlogin = new Date();
         await user.save()
 
-        res.header("Access-Control-Allow-Origin", "https://fe-auth-app-v1-bs6ecos7x-mehuls-projects-89d555c7.vercel.app");
-        res.header("Access-Control-Allow-Credentials", "true");
+        // res.header("Access-Control-Allow-Origin", "https://fe-auth-app-v1-bs6ecos7x-mehuls-projects-89d555c7.vercel.app");
+        // res.header("Access-Control-Allow-Credentials", "true");
         return res.status(200).json({
             success: true,
             msg: "user logged in",
