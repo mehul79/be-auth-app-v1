@@ -98,17 +98,17 @@ export const login = async (req, res) => {
         user.lastlogin = new Date();
         await user.save()
 
-        return(
-            res.status(200).json({
-                success: true,
-                msg: "user logged in",
-                token: token,
-                user: {
-                    ...user._doc,
-                    password: undefined
-                }
-            })
-        )
+        res.header("Access-Control-Allow-Origin", "https://fe-auth-app-v1-bs6ecos7x-mehuls-projects-89d555c7.vercel.app");
+        res.header("Access-Control-Allow-Credentials", "true");
+        return res.status(200).json({
+            success: true,
+            msg: "user logged in",
+            token: token,
+            user: {
+                ...user._doc,
+                password: undefined
+            }
+        });
     }catch(e){
         console.log("login error: ", e);
         return(
