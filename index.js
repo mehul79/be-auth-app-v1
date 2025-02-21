@@ -12,29 +12,30 @@ const PORT = process.env.PORT;
 // Middleware
 app.use(express.json()); // Parse JSON bodies
 app.use(cookieParser()); // Parse cookies
+app.use(cors({ origin: "*" }));
 app.options("*", cors()); // Handle preflight requests for all routes
 
 // CORS Configuration
-const allowedOrigins = [
-  "https://fe-auth-app-v1-bs6ecos7x-mehuls-projects-89d555c7.vercel.app",
-];
+// const allowedOrigins = [
+//   "https://fe-auth-app-v1-bs6ecos7x-mehuls-projects-89d555c7.vercel.app",
+// ];
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (e.g., mobile apps, curl requests)
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-        res.header("Access-Control-Allow-Origin", "https://fe-auth-app-v1-bs6ecos7x-mehuls-projects-89d555c7.vercel.app");
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true, // Allow credentials (cookies, authorization headers)
-  })
-);
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       // Allow requests with no origin (e.g., mobile apps, curl requests)
+//       if (!origin || allowedOrigins.includes(origin)) {
+//         callback(null, true);
+//         res.header("Access-Control-Allow-Origin", "https://fe-auth-app-v1-bs6ecos7x-mehuls-projects-89d555c7.vercel.app");
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//     credentials: true, // Allow credentials (cookies, authorization headers)
+//   })
+// );
 
 // Routes
 app.use("/api/auth", authroutes);
