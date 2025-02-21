@@ -93,8 +93,6 @@ export const login = async (req, res) => {
 
     user.lastlogin = new Date();
     await user.save();
-    // res.header("Access-Control-Allow-Origin", "https://fe-auth-app-v1.vercel.app");
-    // res.header("Access-Control-Allow-Credentials", "true");
     res.status(200).json({
       success: true,
       msg: "user logged in",
@@ -222,11 +220,13 @@ export const resetPassword = async (req, res) => {
   }
 };
 
+
 export const verifyUser = async (req, res) => {
     try {
+      // Get token from cookies
       const token = req.cookies?.token; // Safely access cookies
-      console.log("Token from verifyUser: ", token);
   
+      // If no token provided, return unauthorized
       if (!token) {
         return res.status(401).json({
           success: false,
@@ -236,8 +236,10 @@ export const verifyUser = async (req, res) => {
   
       let decoded;
       try {
+        // Verify JWT token using secret
         decoded = jwt.verify(token, process.env.JWT_SECRET);
       } catch (err) {
+        // Handle different JWT verification errors
         if (err.name === "TokenExpiredError") {
           return res.status(401).json({
             success: false,
@@ -250,14 +252,14 @@ export const verifyUser = async (req, res) => {
             message: "Unauthorized - Invalid token.",
           });
         }
-        console.error("JWT Verification Error: ", err);
+        // Handle other verification errors
         return res.status(500).json({
           success: false,
           message: "Internal server error while verifying token.",
         });
       }
   
-      console.log("Decoded token: ", decoded);
+      // Check if decoded token contains userId
       if (!decoded?.userId) {
         return res.status(401).json({
           success: false,
@@ -265,8 +267,10 @@ export const verifyUser = async (req, res) => {
         });
       }
   
+      // Find user by ID and exclude password field
       const user = await User.findById(decoded.userId).select("-password");
   
+      // If user not found, return error
       if (!user) {
         return res.status(404).json({
           success: false,
@@ -274,13 +278,10 @@ export const verifyUser = async (req, res) => {
         });
       }
   
-      // Set necessary CORS headers
-      res.header("Access-Control-Allow-Origin", "https://fe-auth-app-v1.vercel.app");
-      res.header("Access-Control-Allow-Credentials", "true");
-  
+      // Return success response with user data
       return res.status(200).json({ success: true, user });
     } catch (error) {
-      console.error("Unexpected Error in verifyUser: ", error);
+      // Handle any unexpected errors
       return res.status(500).json({
         success: false,
         message: "Internal server error.",
