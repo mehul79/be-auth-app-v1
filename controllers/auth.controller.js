@@ -233,6 +233,8 @@ export const verifyUser = async (req, res) => {
       });
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("Decoded token: ", decoded);
+    
     if (!decoded)
       return res
         .status(401)
