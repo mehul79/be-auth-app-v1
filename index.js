@@ -16,7 +16,7 @@ app.use(cookieParser()); // Parse cookies
 // CORS Configuration
 const allowedOrigins = [
   "http://127.0.2.2:3000",
-  "https://fe-auth-app-v1-bs6ecos7x-mehuls-projects-89d555c7.vercel.app/login",
+  "https://fe-auth-app-v1-bs6ecos7x-mehuls-projects-89d555c7.vercel.app",
 ];
 
 app.use(
