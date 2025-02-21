@@ -12,6 +12,7 @@ const PORT = process.env.PORT;
 // Middleware
 app.use(express.json()); // Parse JSON bodies
 app.use(cookieParser()); // Parse cookies
+app.options("*", cors()); // Handle preflight requests for all routes
 
 // CORS Configuration
 const allowedOrigins = [
