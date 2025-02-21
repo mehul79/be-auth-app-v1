@@ -100,7 +100,7 @@ export const login = async (req, res) => {
 
         res.header("Access-Control-Allow-Origin", "https://fe-auth-app-v1.vercel.app");
         res.header("Access-Control-Allow-Credentials", "true");
-        return res.status(200).json({
+        res.status(200).json({
             success: true,
             msg: "user logged in",
             token: token,
