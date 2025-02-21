@@ -54,7 +54,7 @@ export const signup = async (req, res) => {
     return res.status(201).json({
       success: true,
       message: "User Created successfully",
-      token: token,
+      // token: token, // Commented out as token is set in cookies via generateTokenandCookie
       user: {
         name: createdUser.name,
         email: createdUser.email,
@@ -85,24 +85,26 @@ export const login = async (req, res) => {
     const passCheck = await bcryptjs.compare(incoming.password, user.password);
     if (!passCheck) {
       return res.status(411).json({
-        success: true,
-        msg: "invalid or wrong password",
+        success: false,
+        msg: "The password you entered is incorrect.",
       });
     }
     const token = generateTokenandCookie(res, user._id);
 
     user.lastlogin = new Date();
     await user.save();
-
-    res.header("Access-Control-Allow-Origin", "https://fe-auth-app-v1.vercel.app");
-    res.header("Access-Control-Allow-Credentials", "true");
+    // res.header("Access-Control-Allow-Origin", "https://fe-auth-app-v1.vercel.app");
+    // res.header("Access-Control-Allow-Credentials", "true");
     res.status(200).json({
       success: true,
       msg: "user logged in",
-      token: token,
       user: {
-        ...user._doc,
-        password: undefined,
+        name: user.name,
+        email: user.email,
+        isVerified: user.isVerified,
+        lastlogin: user.lastlogin,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt
       },
     });
   } catch (e) {
@@ -120,7 +122,7 @@ export const logout = async (req, res) => {
   res.status(200).json({
     logout: true,
     message: "logout Successfull",
-    token: took,
+    // token: token, // to output the token in responce enable this
   });
 };
 

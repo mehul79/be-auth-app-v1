@@ -16,15 +16,17 @@ import cookieParser from "cookie-parser";
 router.use(express.json());
 router.use(cookieParser());
 
-router.use((req, res, next) => {
-  console.log('Incoming request:', {
-    method: req.method,
-    path: req.path,
-    headers: req.headers,
-    body: req.body
-  });
-  next();
-});
+
+//enable this if you want to check what endpoint is sending what request
+// router.use((req, res, next) => {
+//   console.log('Incoming request:', {
+//     method: req.method,
+//     path: req.path,
+//     headers: req.headers,
+//     body: req.body
+//   });
+//   next();
+// });
 
 router.post("/signup", signup);
 router.post("/login", login);
