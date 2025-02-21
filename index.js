@@ -16,7 +16,6 @@ app.options("*", cors()); // Handle preflight requests for all routes
 
 // CORS Configuration
 const allowedOrigins = [
-  "http://127.0.2.2:3000",
   "https://fe-auth-app-v1-bs6ecos7x-mehuls-projects-89d555c7.vercel.app",
 ];
 
