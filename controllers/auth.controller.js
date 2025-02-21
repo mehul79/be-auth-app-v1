@@ -222,7 +222,7 @@ export const resetPassword = async (req, res) => {
 
 export const verifyUser = async (req, res) => {
   const token = req.cookies.token;
-  console.log(token);
+  console.log("token from verifyUser: ", token);
   if (!token)
     return res
       .status(401)
