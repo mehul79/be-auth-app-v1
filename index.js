@@ -12,30 +12,17 @@ const PORT = process.env.PORT;
 // Middleware
 app.use(express.json()); // Parse JSON bodies
 app.use(cookieParser()); // Parse cookies
+
+
+
 app.options("*", cors()); // Handle preflight requests for all routes
-
-// CORS Configuration
-const allowedOrigins = [
-  "https://fe-auth-app-v1.vercel.app/",
-];
-
-app.use(cors({ origin: "*" }));
-// app.use(
-//   cors({
-//     origin: (origin, callback) => {
-//       // Allow requests with no origin (e.g., mobile apps, curl requests)
-//       if (!origin || allowedOrigins.includes(origin)) {
-//         callback(null, true);
-//         res.header("Access-Control-Allow-Origin", "https://fe-auth-app-v1.vercel.app");
-//       } else {
-//         callback(new Error("Not allowed by CORS"));
-//       }
-//     },
-//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-//     allowedHeaders: ["Content-Type", "Authorization"],
-//     credentials: true, // Allow credentials (cookies, authorization headers)
-//   })
-// );
+const allowedOrigins = ['https://fe-auth-app-v1.vercel.app'];
+app.use(cors({
+  origin: allowedOrigins,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 
 // Routes
 app.use("/api/auth", authroutes);

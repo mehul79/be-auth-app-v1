@@ -12,16 +12,19 @@ import {
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-
+// Middleware
 router.use(express.json());
 router.use(cookieParser());
-router.use(cors({ origin: "*" }));
 
-
-// router.use(cors({
-//   origin: "http://localhost:3000", // Change based on frontend URL
-//   credentials: true, // Allows cookies to be sent
-//   }));
+//CORS config
+router.options("*", cors()); // Handle preflight requests for all routes
+const allowedOrigins = ['https://fe-auth-app-v1.vercel.app'];
+router.use(cors({
+  origin: allowedOrigins,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 
 router.post("/signup", signup);
 router.post("/login", login);
