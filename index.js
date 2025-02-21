@@ -25,6 +25,7 @@ app.use(
       // Allow requests with no origin (e.g., mobile apps, curl requests)
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
+        res.header("Access-Control-Allow-Origin", "https://fe-auth-app-v1-bs6ecos7x-mehuls-projects-89d555c7.vercel.app");
       } else {
         callback(new Error("Not allowed by CORS"));
       }
