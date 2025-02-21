@@ -15,7 +15,7 @@ app.use(cookieParser()); // Parse cookies
 
 
 
-// app.options("*", cors()); 
+// app.options("*", cors());  //if you want to send a pre flight request
 const allowedOrigins = ['https://fe-auth-app-v1.vercel.app'];
 app.use(cors({
   origin: (origin, callback) => {

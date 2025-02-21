@@ -43,8 +43,8 @@ export const signup = async (req, res) => {
       email: user.email,
       password: hash_password,
       name: user.name || null,
-      verificationToken: VerificationToken,
-      verificationExpiresAt: Date.now() + 24 * 60 * 1000, // 24 hours
+      // verificationToken: VerificationToken,
+      // verificationExpiresAt: Date.now() + 24 * 60 * 1000, // 24 hours
     });
     await createdUser.save();
 
@@ -146,8 +146,12 @@ export const verifyEmail = async (req, res) => {
     return res.status(200).json({
       verification: true,
       user: {
-        ...user._doc,
-        password: undefined,
+        name: user.name,
+        email: user.email,
+        isVerified: user.isVerified,
+        lastlogin: user.lastlogin,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt
       },
     });
   } catch (e) {
@@ -279,7 +283,16 @@ export const verifyUser = async (req, res) => {
       }
   
       // Return success response with user data
-      return res.status(200).json({ success: true, user });
+      return res.status(200).json({ 
+        success: true, 
+        user: {
+          name: user.name,
+          email: user.email,
+          isVerified: user.isVerified,
+          lastlogin: user.lastlogin,
+          createdAt: user.createdAt,
+          updatedAt: user.updatedAt
+        } });
     } catch (error) {
       // Handle any unexpected errors
       return res.status(500).json({
