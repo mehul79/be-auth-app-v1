@@ -98,8 +98,8 @@ export const login = async (req, res) => {
         user.lastlogin = new Date();
         await user.save()
 
-        // res.header("Access-Control-Allow-Origin", "https://fe-auth-app-v1-bs6ecos7x-mehuls-projects-89d555c7.vercel.app");
-        // res.header("Access-Control-Allow-Credentials", "true");
+        res.header("Access-Control-Allow-Origin", "https://fe-auth-app-v1.vercel.app");
+        res.header("Access-Control-Allow-Credentials", "true");
         return res.status(200).json({
             success: true,
             msg: "user logged in",
@@ -249,7 +249,7 @@ export const resetPassword = async(req,res)=>{
 export const verifyUser = async(req,res)=>{
 
     const token = req.cookies.token;
-    // console.log(token);
+    console.log(token);
 	if (!token) return res.status(401).json({ success: false, message: "Unauthorized - no token provided", token: token});
 	try {
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
