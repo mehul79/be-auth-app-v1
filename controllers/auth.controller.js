@@ -262,6 +262,8 @@ export const verifyUser = async(req,res)=>{
 			return res.status(400).json({ success: false, message: "User not found", user: user });
 		}
 
+        res.header("Access-Control-Allow-Origin", "https://fe-auth-app-v1.vercel.app");
+        res.header("Access-Control-Allow-Credentials", "true");
 		res.status(200).json({ success: true, user });
 
 	} catch (error) {
