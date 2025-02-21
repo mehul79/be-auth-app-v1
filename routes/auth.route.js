@@ -15,7 +15,7 @@ import cors from "cors";
 
 router.use(express.json());
 router.use(cookieParser());
-app.use(cors({ origin: "*" }));
+router.use(cors({ origin: "*" }));
 
 
 // router.use(cors({
