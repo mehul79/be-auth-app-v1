@@ -15,10 +15,10 @@ router.use(express.json());
 
 router.use(cookieParser());
 
-router.use(cors({
-  origin: "http://localhost:3000", // Change based on frontend URL
-  credentials: true, // Allows cookies to be sent
-  }));
+// router.use(cors({
+//   origin: "http://localhost:3000", // Change based on frontend URL
+//   credentials: true, // Allows cookies to be sent
+//   }));
 
 router.post("/signup", signup);
 router.post("/login", login);
