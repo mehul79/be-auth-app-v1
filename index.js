@@ -15,10 +15,17 @@ app.use(cookieParser()); // Parse cookies
 
 
 
-app.options("*", cors()); // Handle preflight requests for all routes
+// app.options("*", cors()); 
 const allowedOrigins = ['https://fe-auth-app-v1.vercel.app'];
 app.use(cors({
-  origin: allowedOrigins,
+  origin: (origin, callback) => {
+    // Allow requests with no origin (e.g., non-browser requests)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
