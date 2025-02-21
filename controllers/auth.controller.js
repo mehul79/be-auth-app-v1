@@ -221,43 +221,67 @@ export const resetPassword = async (req, res) => {
 };
 
 export const verifyUser = async (req, res) => {
-  const token = req.cookies.token;
-  console.log("token from verifyUser: ", token);
-  if (!token)
-    return res
-      .status(401)
-      .json({
-        success: false,
-        message: "Unauthorized - no token provided",
-        token: token,
-      });
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("Decoded token: ", decoded);
-    
-    if (!decoded)
-      return res
-        .status(401)
-        .json({
+    try {
+      const token = req.cookies?.token; // Safely access cookies
+      console.log("Token from verifyUser: ", token);
+  
+      if (!token) {
+        return res.status(401).json({
           success: false,
-          message: "Unauthorized - invalid token",
-          decoded: decoded,
+          message: "Unauthorized - No token provided.",
         });
-
-    const userId = decoded.userId;
-    const user = await User.findById(userId).select("-password");
-
-    if (!user) {
-      return res
-        .status(400)
-        .json({ success: false, message: "User not found", user: user });
+      }
+  
+      let decoded;
+      try {
+        decoded = jwt.verify(token, process.env.JWT_SECRET);
+      } catch (err) {
+        if (err.name === "TokenExpiredError") {
+          return res.status(401).json({
+            success: false,
+            message: "Unauthorized - Token has expired.",
+          });
+        }
+        if (err.name === "JsonWebTokenError") {
+          return res.status(401).json({
+            success: false,
+            message: "Unauthorized - Invalid token.",
+          });
+        }
+        console.error("JWT Verification Error: ", err);
+        return res.status(500).json({
+          success: false,
+          message: "Internal server error while verifying token.",
+        });
+      }
+  
+      console.log("Decoded token: ", decoded);
+      if (!decoded?.userId) {
+        return res.status(401).json({
+          success: false,
+          message: "Unauthorized - Invalid token structure.",
+        });
+      }
+  
+      const user = await User.findById(decoded.userId).select("-password");
+  
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message: "User not found.",
+        });
+      }
+  
+      // Set necessary CORS headers
+      res.header("Access-Control-Allow-Origin", "https://fe-auth-app-v1.vercel.app");
+      res.header("Access-Control-Allow-Credentials", "true");
+  
+      return res.status(200).json({ success: true, user });
+    } catch (error) {
+      console.error("Unexpected Error in verifyUser: ", error);
+      return res.status(500).json({
+        success: false,
+        message: "Internal server error.",
+      });
     }
-
-    res.header("Access-Control-Allow-Origin", "https://fe-auth-app-v1.vercel.app");
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.status(200).json({ success: true, user });
-  } catch (error) {
-    console.log("Error in verifyToken ", error);
-    return res.status(500).json({ success: false, message: "Server error" });
-  }
-};
+  };
