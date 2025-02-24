@@ -1,11 +1,9 @@
 {
   "name": "auth-app",
   "version": "1.0.0",
-  "main": "backend/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./index.js",
-    "vercel-build": "echo hello"
+    "start": "nodemon ./index.js"
   },
   "keywords": [],
   "type": "module",
