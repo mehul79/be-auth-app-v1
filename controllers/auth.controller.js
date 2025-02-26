@@ -301,3 +301,33 @@ export const verifyUser = async (req, res) => {
       });
     }
   };
+
+
+  export const verifyPost = async(req, res) => {
+    const email = body.email;
+    try{
+      const user = await User.findOne({email})
+      if(user){
+        return(
+          res.status(200).json({
+            success: true,
+            user
+          })
+        )
+      }else{
+        return (
+          res.status(404).json({
+            success: false,
+            msg: "user not found"
+          })
+        )
+      }
+    }catch(e){
+      return(
+        res.status(411).json({
+          success: false,
+          error: e
+        })
+      )
+    }
+  }

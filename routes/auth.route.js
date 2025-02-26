@@ -8,6 +8,7 @@ import {
   forgotPassword,
   resetPassword,
   verifyUser,
+  verifyPost
 } from "../controllers/auth.controller.js";
 import cookieParser from "cookie-parser";
 
@@ -35,5 +36,6 @@ router.post("/verify-email", verifyEmail);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:resetToken", resetPassword);
 router.get("/verifyUser", verifyUser);
+router.post("/verifyPost", verifyPost)
 
 export default router;
